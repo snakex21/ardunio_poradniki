@@ -1,0 +1,12 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+#video-player {
+  width: 80%;
+  margin: 0 auto;
+}
+
+#my-video {
+  width: 100%;
+}
