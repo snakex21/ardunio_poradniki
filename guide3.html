@@ -22,14 +22,53 @@
       <h2>Przykładowy kod – Test komunikacji</h2>
       <p>Ten szkic pozwala sprawdzić, czy płyta Arduino poprawnie komunikuje się z komputerem przez port szeregowy:</p>
       <pre><code id="arduinoTest2">
+/*
+  Program czat – komunikacja przez Serial z innym ESP32
+
+  Funkcjonalność:
+  - Urządzenie odczytuje dane wprowadzone przez użytkownika na monitorze szeregowym (Serial).
+  - Wpisana wiadomość jest wysyłana przez Serial2 do drugiego ESP32.
+  - Jeśli na Serial2 pojawi się wiadomość od drugiego urządzenia, jest ona wyświetlana w Serial Monitor.
+  
+  Uwaga:
+  - Dostosuj numery pinów dla Serial2 (CHAT_RX_PIN i CHAT_TX_PIN) do swojej konfiguracji.
+  - Oba urządzenia powinny korzystać z tego samego ustawienia prędkości transmisji.
+*/
+
+#include <Arduino.h>
+
+// Używamy drugiego portu szeregowego (Serial2)
+// Na ESP32 można zdefiniować własne piny dla Serial2 (przykładowo: RX = 16, TX = 17)
+#define CHAT_RX_PIN 16
+#define CHAT_TX_PIN 17
+
+HardwareSerial ChatSerial(2);
+
 void setup() {
-  Serial.begin(9600); // Rozpoczęcie komunikacji przez port szeregowy
-  Serial.println("Arduino jest gotowe!");
+  Serial.begin(115200);
+  // Inicjalizacja Serial2 z wybranymi pinami i prędkością 115200
+  ChatSerial.begin(115200, SERIAL_8N1, CHAT_RX_PIN, CHAT_TX_PIN);
+  Serial.println("Program czat - Komunikacja przez Serial z innym ESP32");
+  Serial.println("Wpisz wiadomość i naciśnij ENTER, aby wysłać:");
 }
 
 void loop() {
-  // Główna pętla programu
+  // Jeśli pojawiły się dane z monitora szeregowego (USB), wysyłamy je przez ChatSerial
+  if (Serial.available()) {
+    String message = Serial.readStringUntil('\n');
+    ChatSerial.println(message);
+    Serial.print("Wysłano: ");
+    Serial.println(message);
+  }
+
+  // Jeśli pojawiły się dane na ChatSerial, odczytujemy je i wyświetlamy na Serial Monitor
+  if (ChatSerial.available()) {
+    String incoming = ChatSerial.readStringUntil('\n');
+    Serial.print("Odebrano: ");
+    Serial.println(incoming);
+  }
 }
+
       </code></pre>
       <button onclick="copyCode('arduinoTest2')">Kopiuj kod</button>
     </section>
