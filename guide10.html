@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Poradnik 10: Projekt z wykorzystaniem wyświetlacza LCD</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Poradnik 10: Projekt z wykorzystaniem wyświetlacza LCD</h1>
+    <nav>
+      <a href="index.html">Powrót do strony głównej</a>
+    </nav>
+  </header>
+  <main>
+    <section>
+      <h2>Opis projektu</h2>
+      <p>Wyświetlacze LCD umożliwiają prezentację danych. W tym poradniku poznasz, jak wyświetlić tekst na ekranie LCD przy użyciu biblioteki <code>LiquidCrystal</code>.</p>
+    </section>
+    <section>
+      <h2>Przykładowy kod</h2>
+      <p>Kod inicjalizuje wyświetlacz LCD (16x2) i wyświetla komunikat:</p>
+      <pre><code id="arduinoLCD9">
+#include <LiquidCrystal.h>
+
+// Inicjalizacja: RS, E, D4, D5, D6, D7
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+
+void setup() {
+  lcd.begin(16, 2); // Ustawienie wyświetlacza 16 kolumn x 2 wiersze
+  lcd.print("Witaj w LCD!");
+}
+
+void loop() {
+  // Dalsza obsługa może być dodana tutaj
+}
+      </code></pre>
+      <button onclick="copyCode('arduinoLCD9')">Kopiuj kod</button>
+    </section>
+    <section>
+      <h2>Szczegółowe wyjaśnienie</h2>
+      <p>Biblioteka <code>LiquidCrystal</code> upraszcza komunikację z wyświetlaczem LCD. Funkcja <code>lcd.begin()</code> ustawia rozmiar wyświetlacza, a <code>lcd.print()</code> wyświetla tekst.</p>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 Poradniki Arduino</p>
+  </footer>
+  <script src="skrypty.js"></script>
+</body>
+</html>

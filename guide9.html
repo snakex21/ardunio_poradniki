@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Poradnik 9: Obsługa przycisków i wyświetlanie wyników</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Poradnik 9: Obsługa przycisków i wyświetlanie wyników</h1>
+    <nav>
+      <a href="index.html">Powrót do strony głównej</a>
+    </nav>
+  </header>
+  <main>
+    <section>
+      <h2>Opis projektu</h2>
+      <p>Na tej stronie dowiesz się, jak podłączyć dwa przyciski i monitorować ich stan za pomocą Arduino, wysyłając wyniki do portu szeregowego.</p>
+    </section>
+    <section>
+      <h2>Przykładowy kod</h2>
+      <p>Kod poniżej odczytuje stany dwóch przycisków:</p>
+      <pre><code id="arduinoButtons8">
+const int button1 = 2;
+const int button2 = 3;
+
+void setup() {
+  pinMode(button1, INPUT_PULLUP);
+  pinMode(button2, INPUT_PULLUP);
+  Serial.begin(9600);
+}
+
+void loop() {
+  int state1 = digitalRead(button1);
+  int state2 = digitalRead(button2);
+
+  Serial.print("Przycisk 1: ");
+  Serial.print(state1 == LOW ? "Wciśnięty" : "Nie wciśnięty");
+  Serial.print(" | Przycisk 2: ");
+  Serial.println(state2 == LOW ? "Wciśnięty" : "Nie wciśnięty");
+  
+  delay(300);
+}
+      </code></pre>
+      <button onclick="copyCode('arduinoButtons8')">Kopiuj kod</button>
+    </section>
+    <section>
+      <h2>Szczegółowe wyjaśnienie</h2>
+      <p>Wykorzystanie funkcji <code>digitalRead()</code> pozwala na odczytanie stanu przycisków, a warunkowy operator (ternary) umożliwia wyświetlenie odpowiedniej informacji w monitorze portu szeregowego.</p>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 Poradniki Arduino</p>
+  </footer>
+  <script src="skrypty.js"></script>
+</body>
+</html>

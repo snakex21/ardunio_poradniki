@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Poradnik 4: Podstawy programowania w Arduino</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Poradnik 4: Podstawy programowania w Arduino</h1>
+    <nav>
+      <a href="index.html">Powrót do strony głównej</a>
+    </nav>
+  </header>
+  <main>
+    <section>
+      <h2>Podstawowe konstrukcje</h2>
+      <p>Arduino wykorzystuje język oparty na C/C++. Poznasz tutaj zmienne, pętle i instrukcje warunkowe, niezbędne przy tworzeniu programów.</p>
+    </section>
+    <section>
+      <h2>Przykładowy kod – Sterowanie warunkowe</h2>
+      <p>Kod ilustruje użycie zmiennych, instrukcji warunkowych i pętli:</p>
+      <pre><code id="arduinoBasic3">
+int liczba = 0;
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  liczba++;
+  if (liczba % 2 == 0) {
+    Serial.println("Liczba parzysta");
+  } else {
+    Serial.println("Liczba nieparzysta");
+  }
+  delay(1000);
+}
+      </code></pre>
+      <button onclick="copyCode('arduinoBasic3')">Kopiuj kod</button>
+    </section>
+    <section>
+      <h2>Szczegółowe wyjaśnienie</h2>
+      <p>Zmienna <code>liczba</code> jest inkrementowana w każdej iteracji pętli. Instrukcja <code>if</code> sprawdza, czy liczba jest parzysta, a wynik jest wysyłany do monitora portu szeregowego.</p>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 Poradniki Arduino</p>
+  </footer>
+  <script src="skrypty.js"></script>
+</body>
+</html>

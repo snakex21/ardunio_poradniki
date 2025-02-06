@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Poradnik 12: Monitorowanie parametrów środowiskowych</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Poradnik 12: Monitorowanie parametrów środowiskowych</h1>
+    <nav>
+      <a href="index.html">Powrót do strony głównej</a>
+    </nav>
+  </header>
+  <main>
+    <section>
+      <h2>Opis projektu</h2>
+      <p>Dowiedz się, jak odczytywać temperaturę (np. za pomocą czujnika LM35) i przesyłać dane do monitora portu szeregowego, co pozwala na monitorowanie parametrów środowiskowych.</p>
+    </section>
+    <section>
+      <h2>Przykładowy kod</h2>
+      <p>Kod odczytuje napięcie z czujnika LM35 i przelicza je na temperaturę w stopniach Celsjusza:</p>
+      <pre><code id="arduinoEnv11">
+const int sensorPin = A0;
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int sensorValue = analogRead(sensorPin);
+  // Konwersja napięcia na temperaturę
+  float voltage = sensorValue * (5.0 / 1023.0);
+  float temperature = voltage * 100; // LM35 daje 10mV/°C
+  Serial.print("Temperatura: ");
+  Serial.print(temperature);
+  Serial.println(" °C");
+  delay(1000);
+}
+      </code></pre>
+      <button onclick="copyCode('arduinoEnv11')">Kopiuj kod</button>
+    </section>
+    <section>
+      <h2>Szczegółowe wyjaśnienie</h2>
+      <p>Odczyt analogowy z czujnika pozwala zmierzyć napięcie, które przeliczamy na temperaturę. W ten sposób możesz monitorować zmiany środowiskowe w czasie rzeczywistym.</p>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 Poradniki Arduino</p>
+  </footer>
+  <script src="skrypty.js"></script>
+</body>
+</html>

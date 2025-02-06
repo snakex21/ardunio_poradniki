@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Poradnik 13: Projekt: Robot mobilny</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Poradnik 13: Projekt: Robot mobilny</h1>
+    <nav>
+      <a href="index.html">Powrót do strony głównej</a>
+    </nav>
+  </header>
+  <main>
+    <section>
+      <h2>Opis projektu</h2>
+      <p>Robot mobilny to zaawansowany projekt, w którym Arduino steruje dwoma silnikami za pomocą sterownika L298N. W tym poradniku przedstawiamy podstawowy szkic sterowania ruchem robota.</p>
+    </section>
+    <section>
+      <h2>Przykładowy kod</h2>
+      <p>Kod poniżej steruje dwoma silnikami, umożliwiając ruch do przodu, do tyłu oraz zatrzymanie:</p>
+      <pre><code id="arduinoRobot12">
+const int enA = 9;
+const int in1 = 8;
+const int in2 = 7;
+const int enB = 10;
+const int in3 = 6;
+const int in4 = 5;
+
+void setup() {
+  pinMode(enA, OUTPUT);
+  pinMode(in1, OUTPUT);
+  pinMode(in2, OUTPUT);
+  pinMode(enB, OUTPUT);
+  pinMode(in3, OUTPUT);
+  pinMode(in4, OUTPUT);
+}
+
+void loop() {
+  // Jazda do przodu
+  digitalWrite(in1, HIGH);
+  digitalWrite(in2, LOW);
+  digitalWrite(in3, HIGH);
+  digitalWrite(in4, LOW);
+  analogWrite(enA, 200); // Regulacja prędkości
+  analogWrite(enB, 200);
+  delay(2000);
+  
+  // Zatrzymanie
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, LOW);
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, LOW);
+  delay(1000);
+  
+  // Jazda do tyłu
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, HIGH);
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, HIGH);
+  analogWrite(enA, 200);
+  analogWrite(enB, 200);
+  delay(2000);
+  
+  // Zatrzymanie
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, LOW);
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, LOW);
+  delay(1000);
+}
+      </code></pre>
+      <button onclick="copyCode('arduinoRobot12')">Kopiuj kod</button>
+    </section>
+    <section>
+      <h2>Szczegółowe wyjaśnienie</h2>
+      <p>Kod steruje dwoma silnikami za pomocą sterownika L298N. Wykorzystujemy piny cyfrowe do ustawienia kierunku obrotu, a piny PWM do regulacji prędkości. Robot wykonuje sekwencję ruchów: jazdę do przodu, zatrzymanie, jazdę do tyłu i kolejne zatrzymanie.</p>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 Poradniki Arduino</p>
+  </footer>
+  <script src="skrypty.js"></script>
+</body>
+</html>

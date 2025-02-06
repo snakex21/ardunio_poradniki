@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Poradnik 11: Zdalne sterowanie przez Bluetooth</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Poradnik 11: Zdalne sterowanie przez Bluetooth</h1>
+    <nav>
+      <a href="index.html">Powrót do strony głównej</a>
+    </nav>
+  </header>
+  <main>
+    <section>
+      <h2>Opis projektu</h2>
+      <p>Bluetooth umożliwia bezprzewodową komunikację między Arduino a urządzeniami mobilnymi lub komputerami. Ten poradnik przedstawia podstawowy projekt sterowania modułem Bluetooth (np. HC-05).</p>
+    </section>
+    <section>
+      <h2>Przykładowy kod</h2>
+      <p>Kod wykorzystuje port szeregowy do komunikacji z modułem Bluetooth:</p>
+      <pre><code id="arduinoBT10">
+void setup() {
+  Serial.begin(9600); // Komunikacja z modułem Bluetooth
+  Serial.println("Moduł Bluetooth gotowy");
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    String command = Serial.readStringUntil('\n');
+    Serial.print("Otrzymano: ");
+    Serial.println(command);
+    // Dodaj obsługę odebranych komend
+  }
+}
+      </code></pre>
+      <button onclick="copyCode('arduinoBT10')">Kopiuj kod</button>
+    </section>
+    <section>
+      <h2>Szczegółowe wyjaśnienie</h2>
+      <p>Moduł Bluetooth komunikuje się przez port szeregowy. Po odebraniu danych, Arduino odczytuje komendy, które mogą sterować różnymi elementami projektu.</p>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 Poradniki Arduino</p>
+  </footer>
+  <script src="skrypty.js"></script>
+</body>
+</html>

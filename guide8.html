@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Poradnik 8: Komunikacja przez port szeregowy</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Poradnik 8: Komunikacja przez port szeregowy</h1>
+    <nav>
+      <a href="index.html">Powrót do strony głównej</a>
+    </nav>
+  </header>
+  <main>
+    <section>
+      <h2>Opis projektu</h2>
+      <p>W tym poradniku dowiesz się, jak wysyłać i odbierać dane za pomocą portu szeregowego, co jest niezwykle przydatne przy debugowaniu i komunikacji z komputerem.</p>
+    </section>
+    <section>
+      <h2>Przykładowy kod</h2>
+      <p>Kod poniżej inicjuje komunikację szeregową oraz odczytuje dane wysłane do Arduino:</p>
+      <pre><code id="arduinoSerial7">
+void setup() {
+  Serial.begin(9600);
+  Serial.println("Wprowadź dane:");
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    char received = Serial.read();
+    Serial.print("Odebrano: ");
+    Serial.println(received);
+  }
+}
+      </code></pre>
+      <button onclick="copyCode('arduinoSerial7')">Kopiuj kod</button>
+    </section>
+    <section>
+      <h2>Szczegółowe wyjaśnienie</h2>
+      <p>Funkcja <code>Serial.available()</code> sprawdza, czy są dostępne dane do odczytu, a <code>Serial.read()</code> pobiera kolejne znaki, które następnie wyświetlamy w monitorze portu szeregowego.</p>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 Poradniki Arduino</p>
+  </footer>
+  <script src="skrypty.js"></script>
+</body>
+</html>

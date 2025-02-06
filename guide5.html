@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Poradnik 5: Sterowanie diodą LED za pomocą przycisku</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Poradnik 5: Sterowanie diodą LED za pomocą przycisku</h1>
+    <nav>
+      <a href="index.html">Powrót do strony głównej</a>
+    </nav>
+  </header>
+  <main>
+    <section>
+      <h2>Opis projektu</h2>
+      <p>W tym poradniku dowiesz się, jak sterować diodą LED przy pomocy przycisku – gdy przycisk zostanie wciśnięty, LED się zapali.</p>
+    </section>
+    <section>
+      <h2>Przykładowy kod</h2>
+      <p>Kod odczytuje stan przycisku i w zależności od niego steruje diodą LED:</p>
+      <pre><code id="arduinoButton4">
+const int ledPin = 13;     // Pin diody LED
+const int buttonPin = 2;   // Pin przycisku
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  pinMode(buttonPin, INPUT_PULLUP); // Użycie wewnętrznego rezystora podciągającego
+  Serial.begin(9600);
+}
+
+void loop() {
+  int buttonState = digitalRead(buttonPin);
+  if (buttonState == LOW) { // Stan niski oznacza wciśnięcie przycisku
+    digitalWrite(ledPin, HIGH);
+    Serial.println("Przycisk wciśnięty - LED włączony");
+  } else {
+    digitalWrite(ledPin, LOW);
+    Serial.println("Przycisk nie wciśnięty - LED wyłączony");
+  }
+  delay(200);
+}
+      </code></pre>
+      <button onclick="copyCode('arduinoButton4')">Kopiuj kod</button>
+    </section>
+    <section>
+      <h2>Szczegółowe wyjaśnienie</h2>
+      <p>Przy użyciu <code>digitalRead()</code> odczytujemy stan przycisku. Wykorzystanie <code>INPUT_PULLUP</code> gwarantuje stabilny sygnał. W zależności od stanu, dioda LED jest włączana lub wyłączana.</p>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 Poradniki Arduino</p>
+  </footer>
+  <script src="skrypty.js"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Poradnik 7: Sterowanie serwomechanizmem</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Poradnik 7: Sterowanie serwomechanizmem</h1>
+    <nav>
+      <a href="index.html">Powrót do strony głównej</a>
+    </nav>
+  </header>
+  <main>
+    <section>
+      <h2>Opis projektu</h2>
+      <p>Dowiedz się, jak sterować serwomechanizmem za pomocą Arduino, korzystając z biblioteki <code>Servo.h</code>.</p>
+    </section>
+    <section>
+      <h2>Przykładowy kod</h2>
+      <p>Kod poniżej steruje serwem, przesuwając je najpierw od 0 do 180 stopni, a następnie wracając:</p>
+      <pre><code id="arduinoServo6">
+#include <Servo.h>
+
+Servo myServo;
+const int servoPin = 9;
+
+void setup() {
+  myServo.attach(servoPin);
+}
+
+void loop() {
+  // Obracanie serwa od 0 do 180 stopni
+  for (int pos = 0; pos <= 180; pos++) {
+    myServo.write(pos);
+    delay(15);
+  }
+  // Obracanie serwa od 180 do 0 stopni
+  for (int pos = 180; pos >= 0; pos--) {
+    myServo.write(pos);
+    delay(15);
+  }
+}
+      </code></pre>
+      <button onclick="copyCode('arduinoServo6')">Kopiuj kod</button>
+    </section>
+    <section>
+      <h2>Szczegółowe wyjaśnienie</h2>
+      <p>Korzystając z biblioteki <code>Servo.h</code>, dołączamy serwomechanizm do wybranego pinu. Pętle <code>for</code> odpowiadają za płynny ruch serwa w obu kierunkach.</p>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 Poradniki Arduino</p>
+  </footer>
+  <script src="skrypty.js"></script>
+</body>
+</html>

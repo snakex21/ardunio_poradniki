@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Poradnik 2: Wprowadzenie do Arduino</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Poradnik 2: Wprowadzenie do Arduino</h1>
+    <nav>
+      <a href="index.html">Powrót do strony głównej</a>
+    </nav>
+  </header>
+  <main>
+    <section>
+      <h2>Wprowadzenie</h2>
+      <p>Arduino to platforma open-source umożliwiająca tworzenie interaktywnych projektów elektronicznych. W tym poradniku poznasz podstawy działania i budowę płytek Arduino.</p>
+    </section>
+    <section>
+      <h2>Przykładowy kod – Blikający LED</h2>
+      <p>Poniższy kod sprawia, że wbudowana dioda LED miga co sekundę:</p>
+      <pre><code id="arduinoBlink1">
+void setup() {
+  pinMode(LED_BUILTIN, OUTPUT); // Ustawienie wbudowanej diody jako wyjścia
+}
+
+void loop() {
+  digitalWrite(LED_BUILTIN, HIGH); // Włączenie LED
+  delay(1000);                     // Czekaj 1 sekundę
+  digitalWrite(LED_BUILTIN, LOW);  // Wyłączenie LED
+  delay(1000);                     // Czekaj 1 sekundę
+}
+      </code></pre>
+      <button onclick="copyCode('arduinoBlink1')">Kopiuj kod</button>
+    </section>
+    <section>
+      <h2>Szczegółowe wyjaśnienie</h2>
+      <p>W funkcji <code>setup()</code> ustawiamy pin z diodą LED jako wyjście, a funkcja <code>loop()</code> w nieskończoność wykonuje polecenia włączania i wyłączania diody z 1-sekundowym opóźnieniem.</p>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 Poradniki Arduino</p>
+  </footer>
+  <script src="skrypty.js"></script>
+</body>
+</html>

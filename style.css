@@ -1,0 +1,81 @@
+/* Reset niektórych domyślnych stylów */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    color: #333;
+  }
+  
+  /* Stylizacja nagłówka */
+  header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  header nav ul {
+    list-style: none;
+    margin-top: 10px;
+  }
+  
+  header nav ul li {
+    display: inline-block;
+    margin: 0 10px;
+  }
+  
+  header nav ul li a,
+  header nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  /* Główna zawartość */
+  main {
+    padding: 20px;
+  }
+  
+  /* Stylizacja sekcji z kodem */
+  pre {
+    background-color: #e8e8e8;
+    padding: 15px;
+    overflow-x: auto;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
+  code {
+    font-family: Consolas, 'Courier New', monospace;
+  }
+  
+  /* Przycisk kopiowania */
+  button {
+    padding: 8px 15px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #555;
+  }
+  
+  /* Stylizacja stopki */
+  footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 15px;
+    margin-top: 20px;
+  }
+  

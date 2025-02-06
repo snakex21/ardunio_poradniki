@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Poradnik 3: Instalacja Arduino IDE</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Poradnik 3: Instalacja Arduino IDE i podstawowe ustawienia</h1>
+    <nav>
+      <a href="index.html">Powrót do strony głównej</a>
+    </nav>
+  </header>
+  <main>
+    <section>
+      <h2>Instalacja Arduino IDE</h2>
+      <p>Pobierz i zainstaluj Arduino IDE ze strony <a href="https://www.arduino.cc/en/software" target="_blank">Arduino.cc</a>. Po instalacji uruchom program i dokonaj podstawowej konfiguracji środowiska.</p>
+    </section>
+    <section>
+      <h2>Przykładowy kod – Test komunikacji</h2>
+      <p>Ten szkic pozwala sprawdzić, czy płyta Arduino poprawnie komunikuje się z komputerem przez port szeregowy:</p>
+      <pre><code id="arduinoTest2">
+void setup() {
+  Serial.begin(9600); // Rozpoczęcie komunikacji przez port szeregowy
+  Serial.println("Arduino jest gotowe!");
+}
+
+void loop() {
+  // Główna pętla programu
+}
+      </code></pre>
+      <button onclick="copyCode('arduinoTest2')">Kopiuj kod</button>
+    </section>
+    <section>
+      <h2>Szczegółowe wyjaśnienie</h2>
+      <p>Funkcja <code>Serial.begin()</code> inicjuje komunikację z prędkością 9600 baud, co pozwala na przesyłanie danych do monitora portu szeregowego w Arduino IDE.</p>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 Poradniki Arduino</p>
+  </footer>
+  <script src="skrypty.js"></script>
+</body>
+</html>

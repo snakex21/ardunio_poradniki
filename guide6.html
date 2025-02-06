@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Poradnik 6: Odczyt danych z czujnika analogowego</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Poradnik 6: Odczyt danych z czujnika analogowego</h1>
+    <nav>
+      <a href="index.html">Powrót do strony głównej</a>
+    </nav>
+  </header>
+  <main>
+    <section>
+      <h2>Opis projektu</h2>
+      <p>Nauczysz się, jak odczytywać wartości z czujnika analogowego (np. potencjometru) i przesyłać je przez port szeregowy.</p>
+    </section>
+    <section>
+      <h2>Przykładowy kod</h2>
+      <p>Poniższy szkic odczytuje wartość z wejścia analogowego A0:</p>
+      <pre><code id="arduinoAnalog5">
+const int sensorPin = A0; // Wejście analogowe
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int sensorValue = analogRead(sensorPin);
+  Serial.print("Wartość czujnika: ");
+  Serial.println(sensorValue);
+  delay(500);
+}
+      </code></pre>
+      <button onclick="copyCode('arduinoAnalog5')">Kopiuj kod</button>
+    </section>
+    <section>
+      <h2>Szczegółowe wyjaśnienie</h2>
+      <p>Funkcja <code>analogRead()</code> pobiera wartość (0–1023) z czujnika. Dane te są następnie przesyłane przez port szeregowy, co umożliwia ich monitorowanie w czasie rzeczywistym.</p>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 Poradniki Arduino</p>
+  </footer>
+  <script src="skrypty.js"></script>
+</body>
+</html>
