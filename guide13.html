@@ -22,55 +22,93 @@
       <h2>Przykładowy kod</h2>
       <p>Kod poniżej steruje dwoma silnikami, umożliwiając ruch do przodu, do tyłu oraz zatrzymanie:</p>
       <pre><code id="arduinoRobot12">
-const int enA = 9;
-const int in1 = 8;
-const int in2 = 7;
-const int enB = 10;
-const int in3 = 6;
-const int in4 = 5;
+/*
+  Program: Odczyt wilgotności z BME280 i zapalanie wbudowanej diody RGB (NeoPixel)
+           na zielono (wilgotność <= 70%) lub czerwono (wilgotność > 70%).
+
+  Założenia sprzętowe:
+  - Płytka ESP32-S3 z wbudowanym NeoPixelem (sterowanym np. na pinie 21).
+  - Czujnik BME280 podłączony przez I2C (domyślne piny SDA, SCL w ESP32-S3 lub inne,
+    jeśli konfigurujemy je ręcznie).
+  
+*/
+
+#include <Arduino.h>
+#include <Wire.h>
+#include <Adafruit_BME280.h>
+#include <Adafruit_NeoPixel.h>
+
+// Adres I2C czujnika BME280 (sprawdź w dokumentacji/modułach, najczęściej 0x76 lub 0x77)
+#define BME280_ADDRESS 0x76
+
+// Ustawienia pinu LED (jeśli korzystasz z wbudowanego NeoPixela np. na pinie 21)
+#define LED_PIN        21
+#define NUMPIXELS      1  // Liczba diod NeoPixel (tu 1 wbudowana)
+Adafruit_NeoPixel pixels(NUMPIXELS, LED_PIN, NEO_GRB + NEO_KHZ800);
+
+// Obiekt czujnika BME280
+Adafruit_BME280 bme;
+
+// Funkcja pomocnicza do ustawiania koloru diody NeoPixel
+void setLedColor(uint8_t r, uint8_t g, uint8_t b) {
+  pixels.setPixelColor(0, pixels.Color(r, g, b));
+  pixels.show();
+}
 
 void setup() {
-  pinMode(enA, OUTPUT);
-  pinMode(in1, OUTPUT);
-  pinMode(in2, OUTPUT);
-  pinMode(enB, OUTPUT);
-  pinMode(in3, OUTPUT);
-  pinMode(in4, OUTPUT);
+  Serial.begin(115200);
+  Serial.println("Program: Odczyt BME280 + dioda RGB (Zielony/Czerwony)");
+
+  // Inicjalizacja I2C (domyślne piny SDA, SCL w ESP32-S3)
+  Wire.begin();
+
+  // Inicjalizacja czujnika BME280
+  if (!bme.begin(BME280_ADDRESS)) {
+    Serial.println("Nie znaleziono czujnika BME280! Sprawdz adres i podlaczenie.");
+    while (1);  // Zatrzymaj działanie, jeśli czujnik nie został znaleziony
+  }
+  Serial.println("Czujnik BME280 zainicjalizowany.");
+
+  // Inicjalizacja diody NeoPixel
+  pixels.begin();
+  setLedColor(0, 0, 0); // Na start wyłącz diodę
+  Serial.println("NeoPixel zainicjalizowany.");
 }
 
 void loop() {
-  // Jazda do przodu
-  digitalWrite(in1, HIGH);
-  digitalWrite(in2, LOW);
-  digitalWrite(in3, HIGH);
-  digitalWrite(in4, LOW);
-  analogWrite(enA, 200); // Regulacja prędkości
-  analogWrite(enB, 200);
-  delay(2000);
-  
-  // Zatrzymanie
-  digitalWrite(in1, LOW);
-  digitalWrite(in2, LOW);
-  digitalWrite(in3, LOW);
-  digitalWrite(in4, LOW);
-  delay(1000);
-  
-  // Jazda do tyłu
-  digitalWrite(in1, LOW);
-  digitalWrite(in2, HIGH);
-  digitalWrite(in3, LOW);
-  digitalWrite(in4, HIGH);
-  analogWrite(enA, 200);
-  analogWrite(enB, 200);
-  delay(2000);
-  
-  // Zatrzymanie
-  digitalWrite(in1, LOW);
-  digitalWrite(in2, LOW);
-  digitalWrite(in3, LOW);
-  digitalWrite(in4, LOW);
-  delay(1000);
+  // Odczyt wartości z czujnika BME280
+  float temperature = bme.readTemperature();    // °C
+  float pressure    = bme.readPressure() / 100.0F; // hPa
+  float humidity    = bme.readHumidity();       // %
+
+  // Wyświetlanie w Serial Monitor (opcjonalne)
+  Serial.print("Temperatura: ");
+  Serial.print(temperature);
+  Serial.println(" *C");
+
+  Serial.print("Cisnienie: ");
+  Serial.print(pressure);
+  Serial.println(" hPa");
+
+  Serial.print("Wilgotnosc: ");
+  Serial.print(humidity);
+  Serial.println(" %");
+
+  // Sterowanie diodą w zależności od wilgotności
+  if (humidity <= 70.0) {
+    // Wilgotność <= 70% => dioda zielona
+    setLedColor(0, 255, 0);
+    Serial.println("LED -> ZIELONA");
+  } else {
+    // Wilgotność > 70% => dioda czerwona
+    setLedColor(255, 0, 0);
+    Serial.println("LED -> CZERWONA");
+  }
+
+  Serial.println("--------------------------\n");
+  delay(2000); // Odczyt co 2 sekundy (możesz zmienić według potrzeb)
 }
+
       </code></pre>
       <button onclick="copyCode('arduinoRobot12')">Kopiuj kod</button>
     </section>
