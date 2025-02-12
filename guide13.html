@@ -22,10 +22,10 @@
       <h2>Przykładowy kod</h2>
       <p>Kod poniżej steruje dwoma silnikami, umożliwiając ruch do przodu, do tyłu oraz zatrzymanie:</p>
       <pre><code id="arduinoRobot12">
-#include <Wire.h>
-#include <Adafruit_Sensor.h>
-#include <Adafruit_BME280.h>
-#include <Adafruit_NeoPixel.h>
+#include Wire.h
+#include Adafruit_Sensor.h
+#include Adafruit_BME280.h
+#include Adafruit_NeoPixel.h
 
 // Ustawienia NeoPixel
 #define LED_PIN     48    // Pin, do którego podłączona jest dioda NeoPixel
@@ -94,6 +94,7 @@ void loop() {
   // Możesz zmienić częstotliwość odczytu (np. co 1 sekundę)
   delay(1000);
 }
+
 
       </code></pre>
       <button onclick="copyCode('arduinoRobot12')">Kopiuj kod</button>
