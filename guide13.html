@@ -22,80 +22,62 @@
       <h2>Przykładowy kod</h2>
       <p>Kod poniżej steruje dwoma silnikami, umożliwiając ruch do przodu, do tyłu oraz zatrzymanie:</p>
       <pre><code id="arduinoRobot12">
-#include Wire.h
-#include Adafruit_Sensor.h
-#include Adafruit_BME280.h
-#include Adafruit_NeoPixel.h
+#include <Adafruit_NeoPixel.h>
 
-// Ustawienia NeoPixel
-#define LED_PIN     48    // Pin, do którego podłączona jest dioda NeoPixel
-#define LED_COUNT   1     // Mamy 1 diodę RGB wbudowaną
+#define PIN 21       
+#define NUMPIXELS 1  
+#define BUTTON_PIN 0  
 
-Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
-// Ustawienia I2C do BME280 (SDA, SCL zależą od płytki)
-// Uwaga: domyślne piny SDA/SCL w ESP32-S3 często to 8/9, ale trzeba sprawdzić
-#define I2C_SDA 8
-#define I2C_SCL 9
-
-// Tworzymy obiekt czujnika BME280
-Adafruit_BME280 bme; 
+int currentState = 0; 
+bool buttonPressed = false; 
 
 void setup() {
-  Serial.begin(115200);
-
-  // Inicjalizacja NeoPixel
-  strip.begin();
-  strip.show();
-
-  // Inicjalizacja I2C 
-  Wire.begin(I2C_SDA, I2C_SCL);
-
-  // Inicjalizacja BME280 – sprawdź, czy adres nie powinien być 0x77
-  if (!bme.begin(0x76)) {
-    Serial.println("Nie wykryto BME280 pod adresem 0x76!");
-    while (1) {
-      delay(10);
-    }
-  } else {
-    Serial.println("BME280 wykryty i zainicjalizowany.");
-  }
-
-  // Opcjonalnie ustawienia oversamplingu, filtry itp.
-  bme.setSampling(
-      Adafruit_BME280::MODE_NORMAL,
-      Adafruit_BME280::SAMPLING_X2,   // temperatura
-      Adafruit_BME280::SAMPLING_X2,   // ciśnienie
-      Adafruit_BME280::SAMPLING_X2,   // wilgotność
-      Adafruit_BME280::FILTER_X2,
-      Adafruit_BME280::STANDBY_MS_500
-  );
+  pixels.begin();
+  pixels.clear();
+  pixels.show();
+  pinMode(BUTTON_PIN, INPUT_PULLUP); 
 }
 
 void loop() {
-  // Odczytamy wilgotność
-  float humidity = bme.readHumidity();
-
-  Serial.print("Wilgotnosc: ");
-  Serial.print(humidity);
-  Serial.println(" %");
-
-  // Sprawdzamy warunek
-  if (humidity <= 70.0) {
-    // Wilgotnosc <= 70% -> zapal na zielono
-    strip.setPixelColor(0, strip.Color(0, 255, 0));  // (R=0,G=255,B=0)
-    strip.show();
+  if (digitalRead(BUTTON_PIN) == LOW) {  
+    if (!buttonPressed) { 
+      buttonPressed = true;
+      currentState = (currentState + 1) % 5;  
+      updateLED(); 
+    }
   } else {
-    // Wilgotnosc > 70% -> zapal na czerwono
-    strip.setPixelColor(0, strip.Color(255, 0, 0)); // (R=255,G=0,B=0)
-    strip.show();
+    buttonPressed = false;
   }
-
-  // Możesz zmienić częstotliwość odczytu (np. co 1 sekundę)
-  delay(1000);
 }
 
+void updateLED() {
+  switch (currentState) {
+    case 0:  
+      setRingColor(0, 0, 0);
+      break;
+    case 1:  
+      setRingColor(0, 255, 0);
+      break;
+    case 2: 
+      setRingColor(255, 0, 0);
+      break;
+    case 3: 
+      setRingColor(0, 0, 255);
+      break;
+    case 4: 
+      setRingColor(255, 255, 255);
+      break;
+  }
+}
 
+void setRingColor(int red, int green, int blue) {
+  for (int i = 0; i < NUMPIXELS; i++) {
+    pixels.setPixelColor(i, pixels.Color(red, green, blue));
+  }
+  pixels.show();
+}
       </code></pre>
       <button onclick="copyCode('arduinoRobot12')">Kopiuj kod</button>
     </section>
