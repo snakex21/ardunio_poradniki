@@ -22,70 +22,78 @@
       <h2>Przykładowy kod</h2>
       <p>Kod poniżej steruje dwoma silnikami, umożliwiając ruch do przodu, do tyłu oraz zatrzymanie:</p>
       <pre><code id="arduinoRobot12">
+#include <Wire.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_BME280.h>
 #include <Adafruit_NeoPixel.h>
 
 // Ustawienia NeoPixel
-#define LED_PIN     48   // Dostósuj pin do swojej płytki (np. 45, 48 albo inny)
-#define LED_COUNT   1    // Liczba diod NeoPixel
-
-// Ustawienia przycisku
-#define BUTTON_PIN  0    // GPIO0 - przycisk BOOT
+#define LED_PIN     48    // Pin, do którego podłączona jest dioda NeoPixel
+#define LED_COUNT   1     // Mamy 1 diodę RGB wbudowaną
 
 Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 
-// Zmienne pomocnicze
-bool ledState = false;       // Czy aktualnie dioda jest włączona?
-bool lastButtonState = HIGH; // Poprzedni stan przycisku (załóżmy INPUT_PULLUP)
+// Ustawienia I2C do BME280 (SDA, SCL zależą od płytki)
+// Uwaga: domyślne piny SDA/SCL w ESP32-S3 często to 8/9, ale trzeba sprawdzić
+#define I2C_SDA 8
+#define I2C_SCL 9
 
-// Funkcja pomocnicza do ustawiania koloru diody
-void setPixelColor(uint8_t r, uint8_t g, uint8_t b) {
-  strip.setPixelColor(0, strip.Color(r, g, b));
-  strip.show();
-}
+// Tworzymy obiekt czujnika BME280
+Adafruit_BME280 bme; 
 
 void setup() {
   Serial.begin(115200);
 
-  // Konfiguracja NeoPixel
-  strip.begin(); 
-  strip.show();  // Upewnij się, że diody startują w stanie OFF
+  // Inicjalizacja NeoPixel
+  strip.begin();
+  strip.show();
 
-  // Konfiguracja przycisku
-  pinMode(BUTTON_PIN, INPUT_PULLUP); 
+  // Inicjalizacja I2C 
+  Wire.begin(I2C_SDA, I2C_SCL);
+
+  // Inicjalizacja BME280 – sprawdź, czy adres nie powinien być 0x77
+  if (!bme.begin(0x76)) {
+    Serial.println("Nie wykryto BME280 pod adresem 0x76!");
+    while (1) {
+      delay(10);
+    }
+  } else {
+    Serial.println("BME280 wykryty i zainicjalizowany.");
+  }
+
+  // Opcjonalnie ustawienia oversamplingu, filtry itp.
+  bme.setSampling(
+      Adafruit_BME280::MODE_NORMAL,
+      Adafruit_BME280::SAMPLING_X2,   // temperatura
+      Adafruit_BME280::SAMPLING_X2,   // ciśnienie
+      Adafruit_BME280::SAMPLING_X2,   // wilgotność
+      Adafruit_BME280::FILTER_X2,
+      Adafruit_BME280::STANDBY_MS_500
+  );
 }
 
 void loop() {
-  // Odczyt aktualnego stanu przycisku (z pull-upem przycisk daje stan NISKI przy wciśnięciu)
-  bool currentButtonState = digitalRead(BUTTON_PIN);
+  // Odczytamy wilgotność
+  float humidity = bme.readHumidity();
 
-  // Sprawdzamy czy nastąpiła zmiana stanu z HIGH na LOW (zbocze opadające)
-  if (lastButtonState == HIGH && currentButtonState == LOW) {
-    // Przełącz stan diody
-    ledState = !ledState;
+  Serial.print("Wilgotnosc: ");
+  Serial.print(humidity);
+  Serial.println(" %");
 
-    if (ledState) {
-      // Jeśli dioda ma się włączyć – w tym przykładzie zapalimy np. na biało
-      setPixelColor(255, 255, 255);
-      Serial.println("Dioda wlaczona. Czekam 5s...");
-
-      // Blokujące opóźnienie 5s
-      delay(5000);
-
-      // Po 5s wyłączamy diodę
-      setPixelColor(0, 0, 0);
-      ledState = false;
-      Serial.println("Dioda wylaczona po 5s.");
-    } else {
-      // Jeśli przełączamy na OFF
-      setPixelColor(0, 0, 0);
-      Serial.println("Dioda wylaczona przyciskiem.");
-    }
+  // Sprawdzamy warunek
+  if (humidity <= 70.0) {
+    // Wilgotnosc <= 70% -> zapal na zielono
+    strip.setPixelColor(0, strip.Color(0, 255, 0));  // (R=0,G=255,B=0)
+    strip.show();
+  } else {
+    // Wilgotnosc > 70% -> zapal na czerwono
+    strip.setPixelColor(0, strip.Color(255, 0, 0)); // (R=255,G=0,B=0)
+    strip.show();
   }
 
-  // Zapamiętaj aktualny stan przycisku do następnej iteracji
-  lastButtonState = currentButtonState;
+  // Możesz zmienić częstotliwość odczytu (np. co 1 sekundę)
+  delay(1000);
 }
-
 
       </code></pre>
       <button onclick="copyCode('arduinoRobot12')">Kopiuj kod</button>
